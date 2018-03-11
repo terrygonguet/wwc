@@ -15,7 +15,7 @@ server.get('/comments', function (req, res, next) {
   if (!req.query.url) {
     return next(new errors.MissingParameterError('Missing query parameter : url'));
   }
-  db.getComments({ url:req.query.url })
+  db.getComments({ url:req.query.url }, req.query.limit || 50)
     .then(comments => {
       res.send(comments);
       next();

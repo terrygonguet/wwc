@@ -1,12 +1,14 @@
 chrome.contextMenus.create({
   id: "place-comment",
   title: "Place comment",
-  contexts: ["page"]
+  contexts: ["all"]
 });
 
 chrome.contextMenus.onClicked.addListener(function(info, tab) {
   switch (info.menuItemId) {
     case "place-comment":
+      display = true;
+      chrome.storage.local.set({ display });
       var port = chrome.tabs.connect(tab.id);
       port.postMessage("place-comment");
       break;

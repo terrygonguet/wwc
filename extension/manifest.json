@@ -1,0 +1,56 @@
+{
+  "applications": {
+    "gecko": {
+      "id": "addon@webwidecomments.com",
+      "strict_min_version": "42.0"
+    }
+  },
+
+  "author": "Terry Gonguet",
+
+  "background": {
+    "scripts": ["background.js"]
+  },
+
+  "browser_action": {
+    "default_icon": "resources/icon.svg",
+    "default_title": "Toggle Comments"
+  },
+
+  "commands": {
+    "toggle-feature": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+Y"
+      },
+      "description": "Toggles display of comments"
+    }
+  },
+
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["jQuery/jquery.js", "jQuery/jquery-ui.min.js", "comments.js"],
+      "css": ["jQuery/jquery-ui.min.css", "comments.css"]
+    }
+  ],
+
+  "description": "Now you can shitpost everywhere.",
+
+  "developer": {
+    "name": "Terry Gonguet",
+    "url": "http://terry.gonguet.com/CV"
+  },
+
+  "icons": {
+    "48": "resources/icon.svg",
+    "96": "resources/icon.svg"
+  },
+
+  "manifest_version": 2,
+
+  "name": "Web Wide Comments",
+
+  "permissions": ["https://webwidecomments.herokuapp.com/", "tabs", "contextMenus"],
+
+  "version": "0.1"
+}

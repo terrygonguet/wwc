@@ -1,0 +1,17 @@
+.wwc-comment {
+  position: absolute;
+  background: #F7CC7C;
+  color: black;
+  z-index: 99;
+  pointer-events: none;
+  transform: translateX(-50%) translateY(-50%);
+}
+
+.wwc-editor {
+  position: absolute !important;
+  background: #F7CC7C;
+  color: black;
+  z-index: 99;
+  top: 50vh;
+  left: 50vw;
+}

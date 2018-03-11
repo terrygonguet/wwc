@@ -13,6 +13,7 @@
   },
 
   "browser_action": {
+    "browser_style": true,
     "default_icon": "resources/icon.svg",
     "default_title": "Toggle Comments"
   },
@@ -50,7 +51,7 @@
 
   "name": "Web Wide Comments",
 
-  "permissions": ["https://webwidecomments.herokuapp.com/", "tabs", "contextMenus"],
+  "permissions": ["https://webwidecomments.herokuapp.com/", "tabs", "contextMenus", "storage"],
 
   "version": "0.1"
 }

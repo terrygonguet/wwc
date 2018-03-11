@@ -14,4 +14,11 @@
   z-index: 99;
   top: 50vh;
   left: 50vw;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.wwc-editor p {
+  margin: 8px;
 }

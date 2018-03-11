@@ -1,11 +1,11 @@
-const container = $("<div>").attr("id", "wwc-container").appendTo(document.body);
+const container = $("<div>").attr("id", "wwc-container").appendTo(document.body).hide();
 const editor = $("<div>")
   .addClass("wwc-editor")
   .appendTo(container)
   .draggable()
   .hide();
 $("<p>Enter comment :</p>").appendTo(editor);
-$("<textarea id='txtComment'>").appendTo(editor);
+$("<textarea id='txtComment' rows=3>").appendTo(editor);
 $("<button>POST</button>")
   .click(function (e) {
     var offset = editor.offset();
@@ -35,6 +35,12 @@ $("<button>POST</button>")
     });
   })
   .appendTo(editor);
+$("<button>CANCEL</button>")
+  .click(function (e) {
+    editor.hide();
+    $("#txtComment").val("");
+  })
+  .appendTo(editor);
 
 $.ajax({
   url:"https://webwidecomments.herokuapp.com/comments",
@@ -52,7 +58,7 @@ $.ajax({
 });
 
 function openEditor() {
-  editor.show();
+  editor.css("top", $(document).scrollTop() + 0.5 * innerHeight).show();
 }
 
 function addComment(data) {
@@ -63,8 +69,21 @@ function addComment(data) {
     .appendTo(container);
 }
 
+chrome.storage.onChanged.addListener(function (changes, area) {
+  if (area === "local" && changes.display) {
+    container[changes.display.newValue ? "show" : "hide"]();
+  }
+});
+chrome.storage.local.get("display", function (res) {
+  container[res.display ? "show" : "hide"]();
+});
+
 chrome.runtime.onConnect.addListener(function (port) {
-  port.onMessage.addListener(function (data) {
-    openEditor();
+  port.onMessage.addListener(function (type) {
+    switch (type) {
+      case "place-comment":
+        openEditor();
+        break;
+    }
   });
 });

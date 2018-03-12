@@ -7,15 +7,25 @@ const editor = $("<div>")
   .hide();
 $("<div id='wwc-tick'>").appendTo(editor);
 $("<p>Enter comment :</p>").appendTo(editor);
-$("<textarea id='txtComment' rows=3>").appendTo(editor);
+$("<textarea id='txtComment' rows=3>")
+  .keydown(function (e) {
+    if (e.key === "Enter" && e.ctrlKey) {
+      $("#btnPost").click();
+    } else if (e.key === "Escape") {
+      $("#btnCancel").click();
+    }
+  })
+  .appendTo(editor);
 $("<div id='wwc-container-btn'>")
   .append(
-    $("<button>POST</button>")
+    $("<button id='btnPost'>POST</button>")
     .click(function (e) {
+      var txt = $("#txtComment").val().trim();
+      if (txt === "") return;
       var offset = editor.offset();
       var data = {
         url: location.href,
-        text: $("#txtComment").val(),
+        text: txt,
         x: Math.floor(offset.left),
         y: Math.floor(offset.top)
       };
@@ -33,14 +43,14 @@ $("<div id='wwc-container-btn'>")
           if (e.status >= 200 && e.status < 300) {
             addComment(data);
             editor.hide();
-          }
-          console.log(JSON.stringify(e));
+          } else
+            console.log(JSON.stringify(e));
         }
       });
     })
   )
   .append(
-    $("<button>CANCEL</button>")
+    $("<button id='btnCancel'>CANCEL</button>")
     .click(function (e) {
       editor.hide();
       $("#txtComment").val("");
@@ -52,7 +62,7 @@ $.ajax({
   url:"https://webwidecomments.herokuapp.com/comments",
   method:"GET",
   data: {
-    url:encodeURIComponent(location.href)
+    url:location.href
   },
   dataType: "json",
   success: function (comments) {
@@ -68,13 +78,15 @@ function openEditor() {
     top: $(document).scrollTop() + 0.5 * innerHeight,
     left: innerWidth * 0.5
   }).show();
+  $("#txtComment").focus();
 }
 
 function addComment(data) {
   $("<div>")
     .addClass("wwc-comment")
     .css({ top:data.y, left:data.x })
-    .text(data.text)
+    .append(`<p class='wwc-'>${data.text}</p>`)
+    .append(`<p class='wwc-createdAt'>${moment(data.createdAt).format("YYYY-MM-DD H:m:s")}</p>`)
     .appendTo(container);
 }
 
@@ -88,11 +100,12 @@ chrome.storage.local.get("display", function (res) {
 });
 
 chrome.runtime.onConnect.addListener(function (port) {
-  port.onMessage.addListener(function (type) {
-    switch (type) {
-      case "place-comment":
-        openEditor();
-        break;
-    }
-  });
+  // port.onMessage.addListener(function (type) {
+  //
+  // });
+  switch (port.name) {
+    case "place-comment":
+      openEditor();
+      break;
+  }
 });

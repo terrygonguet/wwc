@@ -19,18 +19,24 @@
   },
 
   "commands": {
-    "toggle-feature": {
+    "toggle-display": {
       "suggested_key": {
         "default": "Ctrl+Shift+Y"
       },
       "description": "Toggles display of comments"
+    },
+    "place-comment": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+U"
+      },
+      "description": "Post a new comment"
     }
   },
 
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
-      "js": ["jQuery/jquery.js", "jQuery/jquery-ui.min.js", "comments.js"],
+      "js": ["jQuery/jquery.js", "jQuery/jquery-ui.min.js", "moment.js", "comments.js"],
       "css": ["jQuery/jquery-ui.min.css", "comments.css"]
     }
   ],

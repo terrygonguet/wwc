@@ -1,16 +1,20 @@
 .wwc-comment {
   position: absolute;
   background: #F7CC7C;
-  color: black;
-  z-index: 99;
+  z-index: 95;
   pointer-events: none;
   transform: translateX(-50%) translateY(-50%);
+  padding: 3px;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  max-width: 300px;
+  overflow-wrap: break-word;
 }
 
 .wwc-editor {
   position: absolute !important;
   background: #F7CC7C;
-  color: black;
   z-index: 99;
   top: 50vh;
   left: 50vw;
@@ -27,6 +31,11 @@
   margin: 0;
 }
 
+.wwc-createdAt {
+  font-size: 70%;
+  text-align: right;
+}
+
 #wwc-tick {
   position: relative;
   background: black;
@@ -39,4 +48,10 @@
 #wwc-container-btn {
   display: flex;
   justify-content: center;
+}
+
+#wwc-container {
+  font-family: Verdana;
+  color: black;
+  font-size: 12px;
 }

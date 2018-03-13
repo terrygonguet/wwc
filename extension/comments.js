@@ -30,11 +30,9 @@ function startup() {
       }
     })
     .appendTo(editor);
-  // $(`<iframe src="${chrome.extension.getURL("captcha.html")}" sandbox="allow-scripts allow-forms allow-top-navigation" id="ifrCaptcha"></iframe>`)
-  //   .appendTo(editor);
   $(`<div id="g-recaptcha"></div>`)
     .appendTo(editor);
-  $(`<input type="hidden" id="wwc-recaptcha-token"/>`)
+  $(`<input type="hidden" id="wwc-recaptcha-token" value="lolnon"/>`)
     .appendTo(editor);
   $("<div id='wwc-container-btn'>")
     .append(

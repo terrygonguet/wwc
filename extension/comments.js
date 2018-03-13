@@ -1,6 +1,10 @@
 var config, itvId;
 chrome.storage.local.get(null, function (res) {
   config = res;
+  if (res.display[location.href] === undefined) {
+    res.display[location.href] = res.defaultDisplay;
+    chrome.storage.local.set({ display: res.display });
+  }
   startup();
 });
 
@@ -9,7 +13,7 @@ function startup() {
   const container = $("<div>")
     .attr("id", "wwc-container")
     .appendTo(document.body);
-  container[config.display ? "show" : "hide"]();
+  container[config.display[location.href] ? "show" : "hide"]();
   const editor = $("<div>")
     .addClass("wwc-editor")
     .appendTo(container)
@@ -72,6 +76,7 @@ function startup() {
 }
 
 function updateComments() {
+  if (!config.display[location.href]) return ;
   $.ajax({
     url:"https://webwidecomments.herokuapp.com/comments",
     method:"GET",
@@ -101,7 +106,7 @@ function addComment(data) {
   $("<div>")
     .addClass("wwc-comment")
     .css({ top:data.y, left:data.x })
-    .append(`<p class='wwc-'>${data.text}</p>`)
+    .append($(`<p class='wwc-text'>`).text(data.text))
     .append(`<p class='wwc-createdAt'>${moment(data.createdAt).format("YYYY-MM-DD H:m:s")}</p>`)
     .appendTo("#wwc-container");
 }
@@ -112,7 +117,7 @@ chrome.storage.onChanged.addListener(function (changes, area) {
   }
   if (area === "local") {
     if (changes.display)
-      container[config.display ? "show" : "hide"]();
+      $("#wwc-container")[config.display[location.href] ? "show" : "hide"]();
     if (changes.updateRate) {
       clearInterval(itvId);
       setInterval(updateComments, config.updateRate * 1000);
@@ -124,6 +129,9 @@ chrome.runtime.onConnect.addListener(function (port) {
   switch (port.name) {
     case "place-comment":
       openEditor();
+      break;
+    case "update-comments":
+      updateComments();
       break;
   }
 });

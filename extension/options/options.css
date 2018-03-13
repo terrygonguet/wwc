@@ -1,3 +1,19 @@
 input[type=number] {
   width: 50px;
 }
+
+#tblPages {
+  border-collapse: collapse;
+}
+
+#tblPages img {
+  height: 25px;
+}
+
+#tblPages th {
+  border-bottom: 1px solid #999;
+}
+
+#tblPages td:nth-child(2) {
+  text-align: center;
+}

@@ -1,16 +1,38 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <link type="text/css" rel="stylesheet" href="options.css">
-  </head>
+
+<head>
+  <meta charset="utf-8">
+  <link type="text/css" rel="stylesheet" href="options.css">
+</head>
 
 <body>
   <h1>Web Wide Comments</h1>
-  <form>
-      <label>Update every <input type="number" min=3 step=1 id="txbUpdate"/> seconds.</label><br/>
-      <button id="btnSave">Save</button>
-  </form>
+  <table id="tblOptions">
+    <tr>
+      <td><label for="txbUpdate">Update every</label></td>
+      <td><input type="number" min=3 step=1 id="txbUpdate"/></td>
+      <td>seconds</td>
+    </tr>
+    <tr>
+      <td><label for="txbUpdate">Default display</label></td>
+      <td>
+        <label><select id="ddlDisplay"/>
+          <option value="1">Shown</option>
+          <option value="0">Hidden</option>
+        </select>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2" style="text-align:center"><button id="btnSave">Save</button></td>
+    </tr>
+  </table>
+  <table id="tblPages">
+    <tr>
+      <th>URL</th>
+      <th>Display</th>
+    </tr>
+  </table>
   <script src="../jQuery/jquery.js"></script>
   <script src="options.js"></script>
 </body>

@@ -1,19 +1,31 @@
 var config = {
-  display:true,
-  updateRate:10
+  defaultDisplay:false,
+  display:{},
+  updateRate:60
 }
 chrome.storage.local.get(config, function (res) {
   config = Object.assign(res);
+  // console.log(JSON.stringify(config));
   chrome.storage.local.set(config);
   startup();
 });
 
 function startup() {
-  chrome.contextMenus.update("toggle-display", { checked: config.display });
-
   chrome.contextMenus.create({
     id: "place-comment",
     title: "Place comment",
+    contexts: ["all"]
+  });
+
+  chrome.contextMenus.create({
+    id: "update-comments",
+    title: "Update comments",
+    contexts: ["all"]
+  });
+
+  chrome.contextMenus.create({
+    id: "separator1",
+    type:"separator",
     contexts: ["all"]
   });
 
@@ -33,19 +45,30 @@ function startup() {
 }
 
 function toggleDisplay(state=undefined) {
-  if (state === config.display) return;
-  if (state === undefined)
-    config.display = !config.display;
-  else
-    config.display = state;
-  chrome.storage.local.set({ display:config.display });
-  chrome.contextMenus.update("toggle-display", { checked: config.display });
+  chrome.tabs.query({ lastFocusedWindow:true, active:true }, function (tabs) {
+    config.display[tabs[0].url] = !config.display[tabs[0].url];
+    chrome.storage.local.set({ display:config.display });
+    chrome.contextMenus.update("toggle-display", { checked: config.display[tabs[0].url] });
+  });
 }
 
 function placeComment(tabId) {
   var port = chrome.tabs.connect(tabId, { name:"place-comment" });
   port.disconnect();
 }
+
+function updateComments(tabId) {
+  var port = chrome.tabs.connect(tabId, { name:"update-comments" });
+  port.disconnect();
+}
+
+chrome.tabs.onActivated.addListener(function (data) {
+  delete data.tabId;
+  data.active = true;
+  chrome.tabs.query(data, function (tabs) {
+    chrome.contextMenus.update("toggle-display", { checked: config.display[tabs[0].url] });
+  });
+});
 
 // keybind shortcut pressed -----------------------------------
 chrome.commands.onCommand.addListener(function (name) {
@@ -68,6 +91,10 @@ chrome.contextMenus.onClicked.addListener(function(info, tab) {
     case "place-comment":
       toggleDisplay(true);
       placeComment(tab.id);
+      break;
+    case "update-comments":
+      toggleDisplay(true);
+      updateComments(tab.id);
       break;
     case "toggle-display":
       toggleDisplay();

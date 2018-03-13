@@ -9,7 +9,7 @@
   "author": "Terry Gonguet",
 
   "background": {
-    "scripts": ["background.js"]
+    "scripts": ["background/background.js"]
   },
 
   "browser_action": {
@@ -67,5 +67,7 @@
 
   "permissions": ["https://webwidecomments.herokuapp.com/", "tabs", "contextMenus", "storage"],
 
-  "version": "0.1"
+  "version": "0.1",
+
+  "web_accessible_resources": ["captcha.js"]
 }

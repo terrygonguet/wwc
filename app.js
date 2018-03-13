@@ -2,6 +2,8 @@ const restify = require('restify');
 const errors = require('restify-errors');
 const db = require('./lib/db');
 const _ = require('lodash');
+const request = require('request');
+// require('request-debug')(request)
 
 const server = restify.createServer();
 server.pre(restify.plugins.pre.sanitizePath());
@@ -27,20 +29,38 @@ server.get('/comments', function (req, res, next) {
 });
 
 server.post('/comments', function (req, res, next) {
-  const props = [ "text", "url", "x", "y" ];
-  if (_.difference(props, _.keys(req.body)).length) {
-    return next(new errors.InvalidArgumentError('Missing properties in request body'));
+  const props = [ "text", "url", "x", "y", "captcha" ];
+  var diff = _.difference(props, _.keys(req.body));
+  if (diff.length) {
+    return next(new errors.InvalidArgumentError('Missing properties in request body : ' + diff));
   }
-  db.postComment(_.pick(req.body, props))
-    .then(result => {
-      res.status(201);
-      res.end();
-      next();
-    })
-    .catch(e => {
-      console.log(e);
-      next(new errors.InternalServerError(e));
-    });
+  request({
+    url:"https://www.google.com/recaptcha/api/siteverify",
+    method:"POST",
+    json: true,
+    qs: {
+      response:encodeURIComponent(req.body.captcha),
+      secret: process.env.RECAPTCHA_SECRET || require("./config/local").recaptcha.secret
+    }
+  }, function (error, response, body) {
+    if (error || response.statusCode !== 200) {
+      return next(new errors.InternalServerError(error || response.statusMessage));
+    }
+    if (body.success) {
+      db.postComment(_.pick(req.body, props))
+        .then(result => {
+          res.status(201);
+          res.end();
+          next();
+        })
+        .catch(e => {
+          console.log(e);
+          next(new errors.InternalServerError(e));
+        });
+    } else {
+      return next(new errors.RequestExpiredError(body["error-codes"].join(",")));
+    }
+  });
 });
 
 server.del('/comments', function (req, res, next) {

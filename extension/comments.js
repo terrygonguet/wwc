@@ -1,4 +1,4 @@
-var config, itvId;
+var config, itvId, captchaId;
 chrome.storage.local.get(null, function (res) {
   config = res;
   if (res.display[location.href] === undefined) {
@@ -30,20 +30,31 @@ function startup() {
       }
     })
     .appendTo(editor);
+  // $(`<iframe src="${chrome.extension.getURL("captcha.html")}" sandbox="allow-scripts allow-forms allow-top-navigation" id="ifrCaptcha"></iframe>`)
+  //   .appendTo(editor);
+  $(`<div id="g-recaptcha"></div>`)
+    .appendTo(editor);
+  $(`<input type="hidden" id="wwc-recaptcha-token"/>`)
+    .appendTo(editor);
   $("<div id='wwc-container-btn'>")
     .append(
       $("<button id='btnPost'>POST</button>")
       .click(function (e) {
-        var txt = $("#txtComment").val().trim();
-        if (txt === "") return;
+        var text = $("#txtComment").val().trim();
+        var captcha = $("#wwc-recaptcha-token").val();
+        if (text === "" || captcha === "") {
+          $("#lblError").text("Please type text AND fulfil reCAPTCHA").show();
+          return;
+        }
         var offset = editor.offset();
         var data = {
           url: location.href,
-          text: txt,
+          text, captcha,
           x: Math.floor(offset.left),
-          y: Math.floor(offset.top)
+          y: Math.floor(offset.top),
         };
         $.ajax({
+          // url:"http://localhost:8080/comments",
           url:"https://webwidecomments.herokuapp.com/comments",
           method:"POST",
           data: JSON.stringify(data),
@@ -57,8 +68,10 @@ function startup() {
             if (e.status >= 200 && e.status < 300) {
               addComment(data);
               editor.hide();
-            } else
-            console.log(JSON.stringify(e));
+            } else {
+              console.log(JSON.stringify(e));
+              $("#lblError").text("An error occured, try again later.").show();
+            }
           }
         });
       })
@@ -71,8 +84,11 @@ function startup() {
       })
     )
     .appendTo(editor);
+  $("<p id='lblError'></p>").hide().appendTo(editor);
   updateComments();
   itvId = setInterval(updateComments, config.updateRate * 1000);
+  $(`<script src='https://www.google.com/recaptcha/api.js?render=explicit&onload=wwcLoadCallback'></script>`).appendTo("head");
+  $(`<script src="${chrome.runtime.getURL("captcha.js")}"></script>`).appendTo("head");
 }
 
 function updateComments() {
@@ -99,6 +115,7 @@ function openEditor() {
     top: $(document).scrollTop() + 0.5 * innerHeight,
     left: innerWidth * 0.5
   }).show();
+  $("#lblError").hide();
   $("#txtComment").focus();
 }
 

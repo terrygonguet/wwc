@@ -46,7 +46,10 @@ function startup() {
 
 function toggleDisplay(state=undefined) {
   chrome.tabs.query({ lastFocusedWindow:true, active:true }, function (tabs) {
-    config.display[tabs[0].url] = !config.display[tabs[0].url];
+    if (state === undefined)
+      config.display[tabs[0].url] = !config.display[tabs[0].url];
+    else
+      config.display[tabs[0].url] = state;
     chrome.storage.local.set({ display:config.display });
     chrome.contextMenus.update("toggle-display", { checked: config.display[tabs[0].url] });
   });

@@ -20,6 +20,8 @@
   "dependencies": {
     "lodash": "^4.17.5",
     "mongodb": "^3.0.4",
+    "request": "^2.85.0",
+    "request-debug": "^0.2.0",
     "restify": "^6.3.4",
     "restify-errors": "^6.0.0"
   },

@@ -5,6 +5,7 @@ var config = {
 }
 chrome.storage.local.get(config, function (res) {
   config = Object.assign(res);
+  if (config.display === true || config.display === false) config.display = {};
   // console.log(JSON.stringify(config));
   chrome.storage.local.set(config);
   startup();

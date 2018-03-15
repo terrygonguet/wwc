@@ -1,29 +1,75 @@
+/* Import font family + declare */
+@import url('https://fonts.googleapis.com/css?family=Poiret+One|Gochi+Hand');
+
+/* Vars for don't get loose */
+:root {
+  --main-color: #000f55;
+  --main-bg: #FFFFA5;
+  font-family: 'Poiret One', cursive;
+  font-family: 'Gochi Hand', cursive;
+}
+
 .wwc-comment {
+  opacity: 0.8;
+  line-height: 1;
+  font-family: 'Gochi Hand';
   position: absolute;
-  background: #F7CC7C;
+  background: var(--main-bg);
+  color: var(--main-color);
   z-index: 95;
-  pointer-events: none;
+  /* pointer-events: none; */
   transform: translateX(-50%) translateY(-50%);
-  padding: 3px;
-  border-radius: 5px;
+  padding: 5px;
+  border-radius: 1px;
   display: flex;
   flex-direction: column;
   max-width: 300px;
   overflow-wrap: break-word;
 }
 
+.wwc-comment p {
+  margin: 0;
+}
+
 .wwc-editor {
+  background: var(--main-bg);
   position: absolute !important;
-  background: #F7CC7C;
+  color: var(--main-color);
   z-index: 99;
   top: 50vh;
   left: 50vw;
   display: flex;
   flex-direction: column;
   text-align: center;
-  border-radius: 5px;
+  border-radius: 1px;
   border-top-left-radius: 0;
-  padding: 3px;
+  padding: 10px;
+}
+
+.wwc-editor textarea {
+  background: var(--main-bg);
+  border: none;
+  color: var(--main-color);
+  width: calc(100%);
+  height: 75px;
+  resize: none;
+  padding: 0;
+  margin: 0;
+}
+
+.wwc-editor button {
+  font-family: 'Gochi Hand';
+  background: var(--main-bg);
+  color: var(--main-color);
+  border: none;
+  text-align: right;
+  margin: auto;
+  margin-right: 10px;
+}
+
+.wwc-editor button:nth-child(2) {
+  margin: 0;
+  margin-right: 10px;
 }
 
 .wwc-editor p {
@@ -32,26 +78,41 @@
 }
 
 .wwc-createdAt {
+  font-family: 'Poiret One';
   font-size: 70%;
   text-align: right;
+  margin: 0;
 }
 
 #wwc-tick {
-  position: relative;
-  background: black;
+  /* position: relative;
   width: 5px;
   height: 5px;
   top: -3px;
-  left: -3px;
+  left: -3px; */
+}
+
+#wwc-tick::after {
+  content: '';
+  position: absolute;
+  top: -25px;
+  left: -20px;
+  width: 35px;
+  height: 35px;
+  background: url('/resources/pin.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  transform: rotate(-75deg)
 }
 
 #wwc-container-btn {
   display: flex;
-  justify-content: center;
+  text-align: right;
+  /* justify-content: center; */
 }
 
 #wwc-container {
   font-family: Verdana;
-  color: black;
+  color: var(--main-color);
   font-size: 12px;
 }

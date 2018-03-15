@@ -20,7 +20,7 @@ function startup() {
     .draggable()
     .hide();
     $("<div id='wwc-tick'>").appendTo(editor);
-    $("<p>Enter comment :</p>").appendTo(editor);
+    // $("<p>Enter comment :</p>").appendTo(editor);
     $("<textarea id='txtComment' rows=3>")
     .keydown(function (e) {
       if (e.key === "Enter" && e.ctrlKey) {

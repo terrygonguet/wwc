@@ -19,8 +19,6 @@ function startup() {
     .appendTo(container)
     .draggable()
     .hide();
-    $("<div id='wwc-tick'>").appendTo(editor);
-    $("<p>Enter comment :</p>").appendTo(editor);
     $("<textarea id='txtComment' rows=3>")
     .keydown(function (e) {
       if (e.key === "Enter" && e.ctrlKey) {
@@ -109,6 +107,7 @@ function updateComments() {
 }
 
 function openEditor() {
+  $(`<script id="wwcRender">wwcRenderCaptcha();</script>`).appendTo("body");
   $(".wwc-editor").css({
     top: $(document).scrollTop() + 0.5 * innerHeight,
     left: innerWidth * 0.5
@@ -140,8 +139,8 @@ chrome.storage.onChanged.addListener(function (changes, area) {
   }
 });
 
-chrome.runtime.onConnect.addListener(function (port) {
-  switch (port.name) {
+chrome.runtime.onMessage.addListener(function (message) {
+  switch (message.name) {
     case "place-comment":
       openEditor();
       break;

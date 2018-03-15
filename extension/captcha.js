@@ -10,10 +10,14 @@ function wwcRenderCaptcha() {
     "error-callback":"wwcOnError"
   });
   document.querySelector("#wwcRender").remove();
+  document.querySelector("#g-recaptcha").style.display = "initial";
 }
 
 function wwcOnSuccess(token) {
-  document.querySelector("#wwc-recaptcha-token").value  = token;
+  document.querySelector("#wwc-recaptcha-token").value = token;
+  setTimeout(function () {
+    document.querySelector("#g-recaptcha").style.display = "none";
+  }, 500);
 }
 
 function wwcOnExpired() {

@@ -4,21 +4,18 @@
 /* Vars for don't get loose */
 :root {
   --main-color: #000f55;
-  --main-bg: #FFFFA5;
-  font-family: 'Poiret One', cursive;
-  font-family: 'Gochi Hand', cursive;
+  --main-bg: #F7CC7C;
+  --btn-bg: #D1A34F;
 }
 
 .wwc-comment {
   opacity: 0.8;
   line-height: 1;
-  font-family: 'Gochi Hand';
   position: absolute;
   background: var(--main-bg);
   color: var(--main-color);
   z-index: 95;
   /* pointer-events: none; */
-  transform: translateX(-50%) translateY(-50%);
   padding: 5px;
   border-radius: 1px;
   display: flex;
@@ -42,11 +39,10 @@
   flex-direction: column;
   text-align: center;
   border-radius: 1px;
-  border-top-left-radius: 0;
-  padding: 10px;
+  padding: 5px;
 }
 
-.wwc-editor textarea {
+#txtComment {
   background: var(--main-bg);
   border: none;
   color: var(--main-color);
@@ -55,68 +51,40 @@
   resize: none;
   padding: 0;
   margin: 0;
+  font-size: 12px;
 }
 
 .wwc-editor button {
-  font-family: 'Gochi Hand';
-  background: var(--main-bg);
   color: var(--main-color);
+  margin: 5px;
+  margin-right: 10px;
+  padding: 5px 20px;
+  background:var(--btn-bg);
   border: none;
-  text-align: right;
-  margin: auto;
-  margin-right: 10px;
-}
-
-.wwc-editor button:nth-child(2) {
-  margin: 0;
-  margin-right: 10px;
-}
-
-#txtComment {
-  background: #F7CC7C;
-}
-
-.wwc-editor p {
-  padding: 6px;
-  margin: 0;
 }
 
 .wwc-createdAt {
-  font-family: 'Poiret One';
   font-size: 70%;
   text-align: right;
   margin: 0;
 }
 
-#wwc-tick {
-  /* position: relative;
-  width: 5px;
-  height: 5px;
-  top: -3px;
-  left: -3px; */
-}
-
-#wwc-tick::after {
-  content: '';
-  position: absolute;
-  top: -25px;
-  left: -20px;
-  width: 35px;
-  height: 35px;
-  background: url('/resources/pin.png');
-  background-repeat: no-repeat;
-  background-size: cover;
-  transform: rotate(-75deg)
-}
-
 #wwc-container-btn {
   display: flex;
-  text-align: right;
-  /* justify-content: center; */
+  justify-content: flex-end;
 }
 
 #wwc-container {
   font-family: Verdana;
   color: var(--main-color);
   font-size: 12px;
+}
+
+#g-recaptcha {
+  animation: hide 1s linear 0s 1 normal both paused;
+}
+
+@keyframes hide {
+  from { height: 100%; opacity: 1; }
+  to { height: 0; opacity: 0;}
 }

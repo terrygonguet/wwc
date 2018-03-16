@@ -16,11 +16,45 @@ chrome.storage.local.get(null, function (res) {
     $(this).attr("src", (res.display[url] ? "shown" : "hidden") + ".png");
     chrome.storage.local.set({ display:res.display });
   });
+
+  chrome.commands.getAll(function (commands) {
+    for (var com of commands) {
+      $("#" + com.name).val(com.shortcut);
+    }
+  });
+
+  $("#btnBug").click(function () {
+    $.ajax({
+      url:"https://webwidecomments.herokuapp.com/bugs",
+      method:"POST",
+      data: {
+        bug:$("#txtBug").val(),
+        email:$("#txbEmail").val()
+      },
+      dataType:"json",
+      success: function (res) {
+        $("#txtBug").val("Thanks !");
+        $("#txbEmail").val("");
+        $("#btnBug").removeAttr("disabled");
+      },
+      error: function (e) {
+        if (e.status >= 200 && e.status < 300) {
+          $("#txtBug").val("Thanks !");
+          $("#txbEmail").val("");
+        } else {
+          var txt = $("#txtBug").val();
+          $("#txtBug").val(txt + "\n" + JSON.stringify(e));
+        }
+        $("#btnBug").removeAttr("disabled");
+      }
+    });
+    $(this).attr("disabled", "disabled");
+  });
 });
 
 $("#btnSave").click(function (e) {
   if ($("#txbUpdate").val() < Number($("#txbUpdate").attr("min"))) {
-    $("#txbUpdate").val(3);
+    $("#txbUpdate").val(10);
   }
   chrome.storage.local.set({
     updateRate:$("#txbUpdate").val(),

@@ -57,13 +57,11 @@ function toggleDisplay(state=undefined) {
 }
 
 function placeComment(tabId) {
-  var port = chrome.tabs.sendMessage(tabId, { name:"place-comment" });
-  port.disconnect();
+  chrome.tabs.sendMessage(tabId, { name:"place-comment" });
 }
 
 function updateComments(tabId) {
-  var port = chrome.tabs.sendMessage(tabId, { name:"update-comments" });
-  port.disconnect();
+  chrome.tabs.sendMessage(tabId, { name:"update-comments" });
 }
 
 chrome.tabs.onActivated.addListener(function (data) {

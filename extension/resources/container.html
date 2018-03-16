@@ -1,0 +1,13 @@
+<div id="wwc-container">
+  <div class="wwc-editor">
+    <textarea id='wwc-txtComment' rows=3></textarea>
+    <div id="wwc-g-recaptcha"></div>
+    <input type="hidden" id="wwc-recaptcha-token" value="lolnon"/>
+    <div id='wwc-container-btn'>
+      <button id='wwc-btnPost'>POST</button>
+      <button id='wwc-btnCancel'>CANCEL</button>
+    </div>
+    <p id='wwc-lblError' style="display: none"></p>
+  </div>
+  <script src='https://www.google.com/recaptcha/api.js?render=explicit&onload=wwcLoadCallback'></script>
+</div>

@@ -26,7 +26,7 @@
       "suggested_key": {
         "default": "Ctrl+Shift+Y"
       },
-      "description": "Toggles display of comments"
+      "description": "Toggle display of comments"
     },
     "place-comment": {
       "suggested_key": {
@@ -39,8 +39,8 @@
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
-      "js": ["jQuery/jquery.js", "jQuery/jquery-ui.min.js", "moment.js", "comments.js"],
-      "css": ["jQuery/jquery-ui.min.css", "comments.css"]
+      "js": ["lib/jquery.js", "lib/jquery-ui.min.js", "lib/moment.js", "content_scripts/comments.js"],
+      "css": ["lib/jquery-ui.min.css", "content_scripts/comments.css"]
     }
   ],
 
@@ -69,5 +69,5 @@
 
   "version": "0.1",
 
-  "web_accessible_resources": ["captcha.js"]
+  "web_accessible_resources": ["resources/captcha.js", "resources/container.html"]
 }

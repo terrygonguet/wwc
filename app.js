@@ -70,8 +70,22 @@ server.post('/comments', function (req, res, next) {
 });
 
 server.del('/comments', function (req, res, next) {
-  db.deleteComments(req.query);
-  res.status(200);
+  var params = _.cloneDeep(req.body) || {};
+  delete params.passwd;
+  var passwd = process.env.DELETE_PASSWD || require("./config/local").mongodb.deletePasswd;
+  if (req.body && passwd === req.body.passwd) {
+    db.deleteComments(params);
+    res.status(200);
+    res.end();
+    return next();
+  } else {
+    return next(new errors.UnauthorizedError("Bad password"));
+  }
+});
+
+server.post('/bugs', function (req, res, next) {
+  db.postBug(req.body);
+  res.status(201);
   res.end();
   next();
 });

@@ -9,8 +9,6 @@
 }
 
 .wwc-comment {
-  opacity: 0.8;
-  line-height: 1;
   position: absolute;
   background: var(--main-bg);
   color: var(--main-color);
@@ -40,9 +38,10 @@
   text-align: center;
   border-radius: 1px;
   padding: 5px;
+  cursor: grab;
 }
 
-#txtComment {
+#wwc-txtComment {
   background: var(--main-bg);
   border: none;
   color: var(--main-color);
@@ -56,8 +55,7 @@
 
 .wwc-editor button {
   color: var(--main-color);
-  margin: 5px;
-  margin-right: 10px;
+  margin: 5px 10px;
   padding: 5px 20px;
   background:var(--btn-bg);
   border: none;
@@ -80,7 +78,7 @@
   font-size: 12px;
 }
 
-#g-recaptcha {
+#wwc-g-recaptcha {
   animation: hide 1s linear 0s 1 normal both paused;
 }
 

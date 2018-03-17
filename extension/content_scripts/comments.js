@@ -103,6 +103,10 @@ function updateComments() {
 }
 
 function openEditor() {
+  if (Number($("#wwc-isWebsiteAnnoying").val())) {
+    $(".wwc-editor").empty().append("<p>This website is annoying and is blocking this functionality</p>").show();
+    return;
+  }
   $(`<script id="wwcRender">wwcRenderCaptcha();</script>`).appendTo("#wwc-container");
   $(".wwc-editor").css({
     top: mousePos.y,

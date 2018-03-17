@@ -1,5 +1,5 @@
 var config = {
-  defaultDisplay:false,
+  defaultDisplay:true,
   display:{},
   updateRate:60
 }
@@ -41,6 +41,12 @@ function startup() {
   chrome.contextMenus.create({
     id: "open-options",
     title: "Settings",
+    contexts: ["all"]
+  });
+
+  chrome.contextMenus.create({
+    id: "report-bug",
+    title: "Report a bug",
     contexts: ["all"]
   });
 }
@@ -102,6 +108,7 @@ chrome.contextMenus.onClicked.addListener(function(info, tab) {
       toggleDisplay();
       break;
     case "open-options":
+    case "report-bug":
       chrome.runtime.openOptionsPage();
       break;
   }

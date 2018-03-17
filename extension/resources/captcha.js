@@ -35,3 +35,4 @@ function wwcOnExpired() {
 function wwcOnError() {
 
 }
+document.querySelector("#wwc-isWebsiteAnnoying").value = "0";

@@ -1,12 +1,12 @@
 {
   "applications": {
     "gecko": {
-      "id": "addon@webwidecomments.com",
+      "id": "addon@webwidecomments.io",
       "strict_min_version": "42.0"
     }
   },
 
-  "author": "Terry Gonguet",
+  "author": "CodeGalley",
 
   "background": {
     "scripts": ["background/background.js"]
@@ -46,11 +46,6 @@
 
   "description": "Now you can shitpost everywhere.",
 
-  "developer": {
-    "name": "Terry Gonguet",
-    "url": "http://terry.gonguet.com/CV"
-  },
-
   "icons": {
     "48": "resources/icon.svg",
     "96": "resources/icon.svg"
@@ -67,7 +62,7 @@
 
   "permissions": ["https://webwidecomments.herokuapp.com/", "tabs", "contextMenus", "storage"],
 
-  "version": "0.1.1",
+  "version": "0.1.2",
 
   "web_accessible_resources": ["resources/captcha.js", "resources/container.html"]
 }

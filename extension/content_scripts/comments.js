@@ -57,11 +57,12 @@ function startup() {
           data: JSON.stringify(data),
           contentType: "application/json",
           dataType: "json",
-          success: function () {
+          done: function () {
             addComment(data);
             $(".wwc-editor").hide();
+            console.log("success");
           },
-          error: function (e) {
+          fail: function (e) {
             if (e.status >= 200 && e.status < 300) {
               addComment(data);
               $(".wwc-editor").hide();
@@ -79,6 +80,7 @@ function startup() {
       });
     updateComments();
     itvId = setInterval(updateComments, config.updateRate * 1000);
+    $(`<script src='https://www.google.com/recaptcha/api.js?render=explicit&onload=wwcLoadCallback'></script>`).appendTo("#wwc-container");
     $(`<script src="${chrome.runtime.getURL("resources/captcha.js")}"></script>`).appendTo("#wwc-container");
   });
 }
@@ -92,11 +94,11 @@ function updateComments() {
       url:location.href
     },
     dataType: "json",
-    success: function (comments) {
+    done: function (comments) {
       $(".wwc-comment").detach();
       comments.forEach(addComment);
     },
-    error: function (e) {
+    fail: function (e) {
       console.log(JSON.stringify(e));
     }
   });

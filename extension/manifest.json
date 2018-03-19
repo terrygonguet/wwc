@@ -62,7 +62,7 @@
 
   "permissions": ["https://webwidecomments.herokuapp.com/", "tabs", "contextMenus", "storage"],
 
-  "version": "0.1.2",
+  "version": "0.1.3",
 
   "web_accessible_resources": ["resources/captcha.js", "resources/container.html"]
 }

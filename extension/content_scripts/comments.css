@@ -23,6 +23,11 @@
 }
 
 .wwc-comment p {
+  overflow-wrap: break-word;
+  white-space: pre-wrap;
+}
+
+.wwc-comment p {
   margin: 0;
 }
 

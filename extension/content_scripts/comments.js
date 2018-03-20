@@ -57,12 +57,12 @@ function startup() {
           data: JSON.stringify(data),
           contentType: "application/json",
           dataType: "json",
-          done: function () {
+          success: function () {
             addComment(data);
             $(".wwc-editor").hide();
             console.log("success");
           },
-          fail: function (e) {
+          error: function (e) {
             if (e.status >= 200 && e.status < 300) {
               addComment(data);
               $(".wwc-editor").hide();
@@ -94,11 +94,11 @@ function updateComments() {
       url:location.href
     },
     dataType: "json",
-    done: function (comments) {
+   success: function (comments) {
       $(".wwc-comment").detach();
       comments.forEach(addComment);
     },
-    fail: function (e) {
+    error: function (e) {
       console.log(JSON.stringify(e));
     }
   });
